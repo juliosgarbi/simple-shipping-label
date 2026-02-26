@@ -1,36 +1,51 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# USPS Shipping Label (EasyPost MVP)
 
-## Getting Started
+Generate and print USPS shipping labels using the EasyPost API. Addresses are US-only; package weight is in ounces and dimensions in inches.
 
-First, run the development server:
+## Quick start
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+1. **Install dependencies**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+   ```bash
+   npm install
+   ```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+2. **Set your EasyPost API key**
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+   Copy the example env file and add your test key:
 
-## Learn More
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-To learn more about Next.js, take a look at the following resources:
+   Edit `.env.local` and set `EASYPOST_API_KEY` to the key supplied for the interview or from your [EasyPost](https://www.easypost.com/) test account.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+3. **Run the app**
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm run dev
+   ```
 
-## Deploy on Vercel
+   Open [http://localhost:3000](http://localhost:3000). Fill in From and To addresses (US only) and package weight/dimensions, then click **Generate label**. Use **Print label** to open the label in a new window and print. Test labels are fine and do not charge real postage.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Assumptions
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **US only**: From and To addresses must be in the United States (state dropdown, ZIP 5 or 9 digits).
+- **Test labels**: The app is intended for test keys; printing test labels does not incur real postage cost.
+- **Single rate**: The app selects the lowest USPS rate for the shipment; no carrier or service selection.
+- **No auth**: Single-user, no login or persistence of labels.
+
+## What I’d do next
+
+- **Validation**: Stronger client-side validation (e.g. required fields, ZIP format) and clearer inline errors.
+- **Error handling**: More specific error messages from EasyPost (e.g. address validation failures) and retry/back-off for transient errors.
+- **Tests**: Add more unit tests and integration tests for the create-label flow.
+- **Production**: Switch to a production EasyPost API key when going live; consider rate limits and cost controls.
+- **UX**: Optional address verification (EasyPost API), rate selection (show multiple USPS options), and label history/download.
+- **Address autocomplete**: EasyPost does not provide street/address type-ahead. A next step would be to integrate a third-party autocomplete (e.g. Google Places) for suggestions.
+
+## Other instructions
+
+- **Node**: Next.js 16 requires Node.js >= 20.9.0. Use `nvm use 20` (or similar) if needed.
+- **Lint**: `npm run lint`
+- **Tests**: `npm run test:run` — runs unit tests for request validation and the create-label API (EasyPost mocked).
