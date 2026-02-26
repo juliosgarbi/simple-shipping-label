@@ -35,6 +35,7 @@ Generate and print USPS shipping labels using the EasyPost API. Addresses are US
 - **Single rate**: The app selects the lowest USPS rate for the shipment; no carrier or service selection.
 - **No auth**: Single-user, no login or persistence of labels.
 
+
 ## What I’d do next
 
 - **Validation**: Stronger client-side validation (e.g. required fields, ZIP format) and clearer inline errors.
@@ -43,6 +44,7 @@ Generate and print USPS shipping labels using the EasyPost API. Addresses are US
 - **Production**: Switch to a production EasyPost API key when going live; consider rate limits and cost controls.
 - **UX**: Optional address verification (EasyPost API), rate selection (show multiple USPS options), and label history/download.
 - **Address autocomplete**: EasyPost does not provide street/address type-ahead. A next step would be to integrate a third-party autocomplete (e.g. Google Places) for suggestions.
+- **Real validation for US addresses**: I’d add proper US address validation (e.g. via EasyPost verification or a dedicated service), since the create_and_verify API can fail to return or be unreliable in test mode. Right now a **soft** validation is in place: ZIP code is masked and validated (5 or 9 digits), the state is chosen from the full list of US states, and the country is hardcoded as US.
 
 ## Other instructions
 
